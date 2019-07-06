@@ -1,5 +1,6 @@
 import tcod as libtcod
 
+from components.fighter import Fighter
 from entity import Entity, get_blocking_entities_at_location
 from fov_functions import initialize_fov, recompute_fov
 from game_states import GameStates
@@ -31,7 +32,8 @@ def main():
     }
 
     # Initialize entities
-    player = Entity(0, 0, '@', libtcod.white, 'Player', blocks=True)
+    fighter_component = Fighter(hp=30, defense=2, power=5)
+    player = Entity(0, 0, '@', libtcod.white, 'Player', blocks=True, fighter=fighter_component)
     entities = [player]
 
     libtcod.console_set_custom_font(
@@ -83,7 +85,7 @@ def main():
                 target = get_blocking_entities_at_location(entities, destination_x, destination_y)
 
                 if target:
-                    print('You kick the {} in the nuts!'.format(target.name))
+                    player.fighter.attack(target)
                 else:
                     player.move(dx, dy)
                     fov_recompute = True
@@ -97,10 +99,11 @@ def main():
         if fullscreen:
             libtcod.console_set_fullscreen(not libtcod.console_is_fullscreen())
 
+        # Enemy turn
         if game_state == GameStates.ENEMY_TURN:
             for entity in entities:
-                if entity != player:
-                    print('The {} ponders the meaning of its existence.'.format(entity.name))
+                if entity.ai:
+                    entity.ai.take_turn(player, fov_map, game_map, entities)
 
             game_state = GameStates.PLAYER_TURN
 
