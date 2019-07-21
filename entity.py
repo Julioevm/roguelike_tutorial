@@ -40,8 +40,13 @@ class Entity:
         dy = int(round(dy / distance))
 
         if not (game_map.is_blocked(self.x + dx, self.y + dy) or
-                get_blocking_entities_at_location(entities, self.x + dx, self.y + dy)):
-                self.move(dx, dy)
+                    get_blocking_entities_at_location(entities, self.x + dx, self.y + dy)):
+            self.move(dx, dy)
+
+    def distance_to(self, other):
+        dx = other.x - self.x
+        dy = other.y - self.y
+        return math.sqrt(dx ** 2 + dy ** 2)
 
     def move_astar(self, target, entities, game_map):
         # Create a FOV map that has the dimensions of the map
@@ -85,11 +90,6 @@ class Entity:
 
             # Delete the path to free memory
         libtcod.path_delete(my_path)
-
-    def distance_to(self, other):
-        dx = other.x - self.x
-        dy = other.y - self.y
-        return math.sqrt(dx ** 2 + dy ** 2)
 
 def get_blocking_entities_at_location(entities, destination_x, destination_y):
     for entity in entities:
