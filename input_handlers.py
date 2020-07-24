@@ -5,22 +5,24 @@ def handle_keys(key):
     # Movement keys
     key_char = chr(key.c)
 
-    if key.vk == libtcod.KEY_UP or key.vk == libtcod.KEY_KP8:
+    if key.vk == libtcod.KEY_UP or key_char == 'k':
         return {'move': (0, -1)}
-    elif key.vk == libtcod.KEY_DOWN or key.vk == libtcod.KEY_KP2:
+    elif key.vk == libtcod.KEY_DOWN or key_char == 'j':
         return {'move': (0, 1)}
-    elif key.vk == libtcod.KEY_LEFT or key.vk == libtcod.KEY_KP4:
+    elif key.vk == libtcod.KEY_LEFT or key_char == 'h':
         return {'move': (-1, 0)}
-    elif key.vk == libtcod.KEY_RIGHT or key.vk == libtcod.KEY_KP6:
+    elif key.vk == libtcod.KEY_RIGHT or key_char == 'l':
         return {'move': (1, 0)}
-    elif key_char == 'y' or key.vk == libtcod.KEY_KP7:
+    elif key_char == 'y':
         return {'move': (-1, -1)}
-    elif key_char == 'u' or key.vk == libtcod.KEY_KP9:
+    elif key_char == 'u':
         return {'move': (1, -1)}
-    elif key_char == 'b' or key.vk == libtcod.KEY_KP1:
+    elif key_char == 'b':
         return {'move': (-1, 1)}
-    elif key_char == 'n' or key.vk == libtcod.KEY_KP3:
+    elif key_char == 'n':
         return {'move': (1, 1)}
+    elif key_char == 'g':
+        return {'pickup': True}
 
 
     if key.vk == libtcod.KEY_ENTER and key.lalt:
