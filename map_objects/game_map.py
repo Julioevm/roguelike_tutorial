@@ -1,6 +1,5 @@
-import tcod as libtcod
 from random import randint
-
+import tcod as libtcod
 from components.ai import BasicMonster
 from components.fighter import Fighter
 from components.item import Item
@@ -23,8 +22,8 @@ class GameMap:
 
         return tiles
 
-    def make_map(self, max_rooms, room_min_size, room_max_size, map_width, map_height, player, entities, 
-                max_monsters_per_room, max_items_per_room):
+    def make_map(self, max_rooms, room_min_size, room_max_size, map_width, map_height, player, entities,
+                 max_monsters_per_room, max_items_per_room):
         rooms = []
         num_rooms = 0
 
@@ -68,7 +67,8 @@ class GameMap:
                         self.create_h_tunnel(prev_x, new_x, new_y)
 
                 # Generate monsters in the room
-                self.place_entities(new_room, entities, max_monsters_per_room, max_items_per_room)
+                self.place_entities(new_room, entities,
+                                    max_monsters_per_room, max_items_per_room)
                 # Finally, append the new toom to the list
                 rooms.append(new_room)
                 num_rooms += 1
@@ -104,24 +104,24 @@ class GameMap:
                 if randint(0, 100) < 80:
                     fighter_component = Fighter(hp=10, defense=0, power=3)
                     ai_component = BasicMonster()
-                    monster = Entity(x, y, 'o', libtcod.desaturated_green, 'Orc', blocks=True, 
-                                    render_order=RenderOrder.ACTOR, fighter=fighter_component, ai=ai_component)
+                    monster = Entity(x, y, 'o', libtcod.desaturated_green, 'Orc', blocks=True,
+                                     render_order=RenderOrder.ACTOR, fighter=fighter_component, ai=ai_component)
                 else:
                     fighter_component = Fighter(hp=16, defense=1, power=4)
                     ai_component = BasicMonster()
-                    monster = Entity(x, y, 'T', libtcod.darker_green, 'Troll', blocks=True, 
-                                    render_order=RenderOrder.ACTOR, fighter=fighter_component, ai=ai_component)
+                    monster = Entity(x, y, 'T', libtcod.darker_green, 'Troll', blocks=True,
+                                     render_order=RenderOrder.ACTOR, fighter=fighter_component, ai=ai_component)
 
                 entities.append(monster)
 
         for i in range(number_of_items):
-            x = randint(room.x1 + 1, room.x2 -1)
-            y = randint(room.y1 + 1, room.y2 -1)
+            x = randint(room.x1 + 1, room.x2 - 1)
+            y = randint(room.y1 + 1, room.y2 - 1)
 
             if not any([entity for entity in entities if entity.x == x and entity.y == y]):
                 item_component = Item()
                 item = Entity(x, y, '!', libtcod.violet, 'Healing Potion', render_order=RenderOrder.ITEM,
-                                item=item_component)
+                              item=item_component)
 
                 entities.append(item)
 

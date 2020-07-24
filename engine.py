@@ -164,12 +164,12 @@ def main():
                         dead_entity = enemy_turn_result.get('dead')
 
                         if message:
-                             message_log.add_message(message)
+                            message_log.add_message(message)
 
                         if dead_entity:
                             if dead_entity == player:
                                 message, game_state = kill_player(dead_entity)
-                            else: 
+                            else:
                                 message = kill_monster(dead_entity)
 
                         message_log.add_message(message)
